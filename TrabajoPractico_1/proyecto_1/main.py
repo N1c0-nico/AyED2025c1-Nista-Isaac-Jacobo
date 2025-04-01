@@ -1,3 +1,0 @@
-Hola
-chau
-holalalaalal
