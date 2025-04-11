@@ -1,35 +1,57 @@
 from matplotlib import pyplot as plt
-from random import randint
-import time
 from modules.ordenamiento_por_seleccion import ordenamiento_por_seleccion
+from modules.BubbleSort import bubble_sort
+from modules.QuickSort import quicksort
+from modules.Funciones import Crearlista
+from modules.Funciones import Tiempos
+
+
+"""
+lista2 = lista
+#lista3 = lista
+
+#Time BubbleSort
+inicio = time.perf_counter()
+BubbleSort.bubble_sort(lista)
+fin = time.perf_counter()
+tiempo_ejecucionBubble = fin - inicio
+print(f"Tiempo de ejecución Bubblesort: {tiempo_ejecucionBubble:.4f} segundos")
+
+#Time QuickSort
+inicio = time.perf_counter()
+QuickSort.quicksort(lista2)
+fin = time.perf_counter()
+tiempo_ejecucionQuick = fin - inicio
+print(f"Tiempo de ejecución Quicksort: {tiempo_ejecucionQuick:.4f} segundos")
+
+ListaDeTiempos = [tiempo_ejecucionBubble, tiempo_ejecucionQuick]
+"""
+
 
 tamanos = [1, 10, 100, 200, 500, 700, 1000]
-tamanos = range(1,1000,10)
+lista_bubble =  Tiempos (bubble_sort,tamanos)
+lista_quicksort =  Tiempos (quicksort,tamanos)
+listas_ordenadas = [lista_bubble, lista_quicksort]
+#lista_metodos_ord = [(bubble_sort, lista_bubble),(quicksort, lista_quicksort)]
 
-tiempos_ordenamiento_por_seleccion = []
 
-# figsize es el tamaño de la figura en pulgadas (width, height)
-plt.figure(figsize=(10, 6))
-
-for n in tamanos:
-
-    datos = [randint(1, 10000) for _ in range(n)]
-    # datos = []
-    # for _ in range(n):
-    #     datos.append(randint(1, 10000))    
-
-    inicio = time.perf_counter()
-    ordenamiento_por_seleccion(datos.copy())
-    fin = time.perf_counter()
+def graficar_tiempos(listas_ordenadas):
+    tamanos = [1, 10, 100, 200, 500, 700, 1000]
     
-    tiempos_ordenamiento_por_seleccion.append(fin - inicio)        
+    plt.figure(figsize=(10, 6))
 
-# plt.plot(tamanos, tiempos_ordenamiento_por_seleccion, marker='o', label="ordenamiento_por_seleccion")
-plt.plot(tamanos, tiempos_ordenamiento_por_seleccion)
+    for lista in listas_ordenadas:
 
-plt.xlabel('Tamaño de la lista')
-plt.ylabel('Tiempo (segundos)')
-plt.title('Comparación de tiempos de ordenamiento')
-plt.legend() # para mostrar el nombre del método de ordenamiento. Es el "label" del metodo plot
-plt.grid() # cuadriculado
-plt.show()
+        # plot es para graficar los tiempos de ordenamiento
+        # plot es el método de matplotlib para graficar
+        # marker='o' es para poner un punto en cada coordenada
+        plt.plot(tamanos, lista, marker='o')
+
+    plt.xlabel('Tamaño de la lista')
+    plt.ylabel('Tiempo (segundos)')
+    plt.title('Comparación de tiempos de ordenamiento')
+    plt.legend() # para mostrar el nombre del método de ordenamiento. Es el "label" del metodo plot
+    plt.grid() # cuadriculado
+    plt.show()
+
+graficar_tiempos(listas_ordenadas)
