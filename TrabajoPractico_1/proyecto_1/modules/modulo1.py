@@ -7,4 +7,3 @@ def Crearlista (n):
         numero = random.randint (10000,100000)
         lista.append(numero)
     return lista
-
