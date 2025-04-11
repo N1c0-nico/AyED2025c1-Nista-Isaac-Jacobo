@@ -4,6 +4,6 @@ def Crearlista (n):
     import random
     lista=[]
     for numero in range (n):
-        numero = random.randint (10000,100000)
+        numero = random.randint (10000,99999)
         lista.append(numero)
     return lista
