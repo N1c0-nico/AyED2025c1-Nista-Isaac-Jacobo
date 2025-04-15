@@ -1,12 +1,15 @@
+
+
+
 # Función auxiliar que realiza una especie de "Counting Sort" sobre un dígito específico
 # posición_digito = 1 para unidades, 10 para decenas, 100 para centenas, etc.
 def ordenamiento_por_conteo_por_digito(lista, posicion_digito):
-    longitud = len(lista)
-    resultado = [0] * longitud  # Lista donde guardamos los números ya ordenados por el dígito actual
+    n = len(lista)
+    resultado = [0] * n  # Lista donde guardamos los números ya ordenados por el dígito actual
     conteo = [0] * 10  # Para contar cuántas veces aparece cada dígito (0-9) en esta posición
 
     # Paso 1: Contar las ocurrencias de cada dígito en la posición actual
-    for i in range(longitud):
+    for i in range(n):
         indice = (lista[i] // posicion_digito) % 10  # Extraemos el dígito que nos interesa
         conteo[indice] += 1
 
@@ -17,7 +20,7 @@ def ordenamiento_por_conteo_por_digito(lista, posicion_digito):
 
     # Paso 3: Construir la lista ordenada según el dígito actual
     # Lo hacemos en orden inverso para mantener la estabilidad del algoritmo
-    i = longitud - 1
+    i = n - 1
     while i >= 0:
         indice = (lista[i] // posicion_digito) % 10
         resultado[conteo[indice] - 1] = lista[i]
@@ -25,7 +28,7 @@ def ordenamiento_por_conteo_por_digito(lista, posicion_digito):
         i -= 1
 
     # Paso 4: Copiar el contenido ordenado de vuelta a la lista original
-    for i in range(longitud):
+    for i in range(n):
         lista[i] = resultado[i]
 
 
@@ -41,10 +44,10 @@ def ordenamiento_radix(lista):
         ordenamiento_por_conteo_por_digito(lista, posicion_digito)
         posicion_digito *= 10
 
-'''
+"""
 # Ejemplo de uso:
 lista_numeros = [170, 45, 75, 90, 802, 24, 2, 66]
 print("Antes:", lista_numeros)
 ordenamiento_radix(lista_numeros)
 print("Después:", lista_numeros)
-'''
+"""
