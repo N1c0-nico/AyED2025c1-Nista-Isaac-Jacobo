@@ -1,0 +1,6 @@
+Comparar ahora con la función built-in de python sorted. 
+¿Cómo funciona sorted? Investigar y explicar brevemente.
+
+La función sorted() de Python es una herramienta incorporada que permite ordenar cualquier tipo de iterable, devolviendo una nueva lista ordenada sin modificar el original. Internamente, utiliza el algoritmo Timsort, una combinación eficiente de Merge Sort e Insertion Sort, diseñado para ofrecer un excelente rendimiento tanto en listas pequeñas como en listas parcialmente ordenadas. Tiene una complejidad temporal de O(n log n) en el peor caso, y puede alcanzar O(n) en el mejor escenario. Además, es un algoritmo estable, lo que significa que conserva el orden relativo de los elementos iguales.
+
+En comparación con los algoritmos implementados (Bubble Sort, Quicksort y Radix Sort), sorted() es notablemente más eficiente y confiable. Mientras que Bubble Sort es ineficiente para grandes volúmenes de datos (O(n²)) y Quicksort puede degradarse a O(n²) en el peor caso, sorted() garantiza un rendimiento consistente. Radix Sort puede ser más rápido en casos específicos con enteros, pero sorted() es más versátil y general. Por todo esto, es la opción preferida en aplicaciones prácticas donde se requiere robustez, velocidad y simplicidad.
