@@ -1,9 +1,8 @@
 from matplotlib import pyplot as plt
-from modules.ordenamiento_por_seleccion import ordenamiento_por_seleccion
 from modules.BubbleSort import bubble_sort
 from modules.QuickSort import quicksort
-from modules.Funciones import Crearlista
 from modules.Funciones import Tiempos
+from modules.RadixSort import radix_sort
 
 
 """
@@ -29,9 +28,10 @@ ListaDeTiempos = [tiempo_ejecucionBubble, tiempo_ejecucionQuick]
 
 
 tamanos = [1, 10, 100, 200, 500, 700, 1000]
-lista_bubble =  Tiempos (bubble_sort,tamanos)
-lista_quicksort =  Tiempos (quicksort,tamanos)
-listas_ordenadas = [lista_bubble, lista_quicksort]
+lista_bubble =  Tiempos (bubble_sort, tamanos)
+lista_quicksort =  Tiempos (quicksort, tamanos)
+lista_Radix = Tiempos(radix_sort, tamanos)
+listas_ordenadas = [(lista_bubble, "BubbleSort"), (lista_quicksort, "QuickSort"), (lista_Radix, "RadixSort")]
 #lista_metodos_ord = [(bubble_sort, lista_bubble),(quicksort, lista_quicksort)]
 
 
@@ -40,12 +40,12 @@ def graficar_tiempos(listas_ordenadas):
     
     plt.figure(figsize=(10, 6))
 
-    for lista in listas_ordenadas:
+    for lista, etiqueta in listas_ordenadas:
 
         # plot es para graficar los tiempos de ordenamiento
         # plot es el método de matplotlib para graficar
         # marker='o' es para poner un punto en cada coordenada
-        plt.plot(tamanos, lista, marker='o')
+        plt.plot(tamanos, lista, marker='o', label = etiqueta)
 
     plt.xlabel('Tamaño de la lista')
     plt.ylabel('Tiempo (segundos)')
