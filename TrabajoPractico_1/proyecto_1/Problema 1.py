@@ -55,3 +55,4 @@ def graficar_tiempos(listas_ordenadas):
     plt.show()
 
 graficar_tiempos(listas_ordenadas)
+
