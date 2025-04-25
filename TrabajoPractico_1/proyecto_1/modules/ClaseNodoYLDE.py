@@ -1,4 +1,6 @@
 #  Se establece la clase Nodo, la cual puede intepretarse como una cajita de tamaño fijo que almacena un item y dos punteros, uno que señala al nodo anterior y otro al nodo siguiente.
+import unittest
+import random
 class Nodo:
     def __init__(self, dato):
         self.dato = dato  # Seteamos el dato
@@ -71,8 +73,14 @@ class ListaDobleEnlazada:
             raise IndexError("La lista está vacía.")
         if posicion is None:
             posicion = self._longitud - 1  # Si no dijeron cuál, sacamos la última
-        if posicion < 0 or posicion >= self._longitud:
+        if posicion < -1 or posicion >= self._longitud:
             raise IndexError("Posición fuera de rango.")
+        if posicion == -1:
+            nana = self.ultimo
+            self.ultimo.anterior = self.ultimo
+            self._longitud -= 1
+            return nana.dato
+            
         if posicion == 0:
             dato = self.primero.dato
             self.primero = self.primero.siguiente
@@ -80,7 +88,7 @@ class ListaDobleEnlazada:
                 self.primero.anterior = None
             else:
                 self.ultimo = None
-        elif posicion == self._longitud - 1:
+        elif posicion == self._longitud:
             dato = self.ultimo.dato
             self.ultimo = self.ultimo.anterior
             if self.ultimo:
@@ -92,10 +100,19 @@ class ListaDobleEnlazada:
             for _ in range(posicion):
                 actual = actual.siguiente
             dato = actual.dato
-            actual.anterior.siguiente = actual.siguiente
-            actual.siguiente.anterior = actual.anterior
-        self._longitud -= 1
-        return dato
+            if actual.anterior is not None:
+                actual.anterior.siguiente = actual.siguiente
+            if actual.siguiente is not None:
+                actual.siguiente.anterior = actual.anterior
+
+            if actual == self.ultimo:
+                self.ultimo = actual.anterior
+            
+
+            # actual.anterior.siguiente = actual.siguiente
+            # actual.siguiente.anterior = actual.anterior
+            self._longitud -= 1
+            return dato
 
     # Hace una copia de la lista
     def copiar(self):
@@ -142,3 +159,16 @@ class ListaDobleEnlazada:
             elementos.append(str(actual.dato))
             actual = actual.siguiente
         return "[" + " <-> ".join(elementos) + "]"
+    def __iter__(self):
+        actual = self.primero
+        while actual:
+            yield actual.dato
+            actual = actual.siguiente
+if __name__ == "__main__":
+    l1 =    ListaDobleEnlazada ()
+    for i in range (10):
+        l1.agregar_al_final(i)
+    
+    print(len(l1))
+    extraido = l1.extraer()
+    print(len(l1))
