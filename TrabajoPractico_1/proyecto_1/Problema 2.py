@@ -69,10 +69,17 @@ class ListaDobleEnlazada:
     def extraer(self, posicion=None):
         if self.esta_vacia():
             raise IndexError("La lista está vacía.")
+
         if posicion is None:
-            posicion = self._longitud - 1  # Si no dijeron cuál, sacamos la última
+            posicion = self._longitud - 1  # Por defecto, último
+
+        if posicion < 0:
+            posicion += self._longitud  # Soporte para índices negativos
+
         if posicion < 0 or posicion >= self._longitud:
             raise IndexError("Posición fuera de rango.")
+
+    # Extraer al inicio
         if posicion == 0:
             dato = self.primero.dato
             self.primero = self.primero.siguiente
@@ -80,6 +87,8 @@ class ListaDobleEnlazada:
                 self.primero.anterior = None
             else:
                 self.ultimo = None
+
+    # Extraer al final
         elif posicion == self._longitud - 1:
             dato = self.ultimo.dato
             self.ultimo = self.ultimo.anterior
@@ -87,6 +96,8 @@ class ListaDobleEnlazada:
                 self.ultimo.siguiente = None
             else:
                 self.primero = None
+
+    # Extraer en posición intermedia
         else:
             actual = self.primero
             for _ in range(posicion):
@@ -94,8 +105,13 @@ class ListaDobleEnlazada:
             dato = actual.dato
             actual.anterior.siguiente = actual.siguiente
             actual.siguiente.anterior = actual.anterior
+
         self._longitud -= 1
         return dato
+
+
+   
+  
 
     # Hace una copia de la lista
     def copiar(self):
