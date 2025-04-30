@@ -72,3 +72,5 @@ class DequeEmptyError(Exception):
     pass  # Define una excepción personalizada para cuando el mazo está vacío
 
 class Mazo:
+    def __init__ (self, Carta):
+    

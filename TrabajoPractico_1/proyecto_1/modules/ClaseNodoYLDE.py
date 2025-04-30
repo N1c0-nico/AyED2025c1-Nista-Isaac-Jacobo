@@ -66,12 +66,8 @@ class ListaDobleEnlazada:
 
     # Saca una caja de cierta posición y devuelve el dato
     def extraer(self, posicion=None):
-        if self.esta_vacia():
+        if self.esta_vacia(): 
             raise IndexError("La lista está vacía.")
-        if posicion is None:
-            posicion = self._longitud - 1  # Si no dijeron cuál, sacamos la última
-        if posicion < -1 or posicion >= self._longitud:
-            raise IndexError("Posición fuera de rango.")
         if posicion == -1:
             nana = self.ultimo
             self.ultimo.anterior = self.ultimo
@@ -85,7 +81,7 @@ class ListaDobleEnlazada:
                 self.primero.anterior = None
             else:
                 self.ultimo = None
-        elif posicion == self._longitud:
+        elif posicion == self._longitud-1:
             dato = self.ultimo.dato
             self.ultimo = self.ultimo.anterior
             if self.ultimo:
