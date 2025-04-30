@@ -1,6 +1,3 @@
-#  Se establece la clase Nodo, la cual puede intepretarse como una cajita de tamaño fijo que almacena un item y dos punteros, uno que señala al nodo anterior y otro al nodo siguiente.
-import unittest
-import random
 class Nodo:
     def __init__(self, dato):
         self.dato = dato  # Seteamos el dato
