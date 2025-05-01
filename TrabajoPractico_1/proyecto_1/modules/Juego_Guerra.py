@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Aug 11 09:32:57 2022
-
-@author: Cátedra de Algoritmos y Estructura de Datos
-"""
-
-from modules import Carta
+#código proporcionado por la cátedra
+#algoritomo del juego guerra
+from modules.Mazon import Mazo, DequeEmptyError
+from modules.Carta import Carta
 import random
 
 N_TURNOS = 10000
@@ -16,11 +12,11 @@ class JuegoGuerra:
     valores = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'] 
     palos = ['♠', '♥', '♦', '♣']
     
-    def __init__(self, random_seed = 0):
+    def _init_(self, random_seed = 0):
         
-        self._mazo_inicial = Carta.Mazo()
-        self.mazo_1 = Carta.Mazo()
-        self.mazo_2 = Carta.Carta.Mazo()
+        self._mazo_inicial = Mazo()
+        self.mazo_1 = Mazo()
+        self.mazo_2 = Mazo()
         self._guerra = False
         self._ganador = ''
         self.empate = False
@@ -57,7 +53,7 @@ class JuegoGuerra:
         if self.empate:
             return N_TURNOS
         return self._turno + 1
-           
+        
     @property
     def ganador(self):
         return self._ganador
@@ -69,7 +65,7 @@ class JuegoGuerra:
         """
         random.seed(self._seed)
         cartas = [Carta(valor, palo) for valor in JuegoGuerra.valores
-                  for palo in JuegoGuerra.palos]
+                for palo in JuegoGuerra.palos]
         
         #cartas_shuffled = random.sample(cartas, len(cartas))
         random.shuffle(cartas)
@@ -123,7 +119,7 @@ class JuegoGuerra:
             else:
                 if ver_partida:
                     self.mostrar_juego()
-               
+            
                 if  self._cartas_en_la_mesa[-2] >  self._cartas_en_la_mesa[-1]:
                     for carta in self._cartas_en_la_mesa:
                         self.mazo_1.poner_carta_abajo(carta)
@@ -162,7 +158,7 @@ class JuegoGuerra:
                 self._ganador = 'jugador 2'              
             if ver_partida:
                 print(f'           ***** {self._ganador} gana la partida*****                           ')  
-                      
+                    
         
         
     def mostrar_juego(self):
@@ -184,7 +180,7 @@ class JuegoGuerra:
              print(f'         ***** 3){self._ganador} gana la partida*****                           ')  
 
 
-if __name__ == "__main__":
+if __name__ == "_main_":
 
     n = random.randint(0, 1000)
     juego = JuegoGuerra(random_seed=n)
