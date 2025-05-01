@@ -3,35 +3,52 @@ from modules.BubbleSort import bubble_sort
 from modules.QuickSort import quicksort
 from modules.Funciones import Tiempos
 from modules.RadixSort import radix_sort
+from modules import Funciones
+import time 
 
-
-"""
+lista = Funciones.Crearlista(500)
 lista2 = lista
-#lista3 = lista
+lista3 = lista
+lista4 = lista
 
 #Time BubbleSort
 inicio = time.perf_counter()
-BubbleSort.bubble_sort(lista)
+bubble_sort(lista)
 fin = time.perf_counter()
 tiempo_ejecucionBubble = fin - inicio
 print(f"Tiempo de ejecución Bubblesort: {tiempo_ejecucionBubble:.4f} segundos")
 
 #Time QuickSort
 inicio = time.perf_counter()
-QuickSort.quicksort(lista2)
+quicksort(lista2)
 fin = time.perf_counter()
 tiempo_ejecucionQuick = fin - inicio
 print(f"Tiempo de ejecución Quicksort: {tiempo_ejecucionQuick:.4f} segundos")
 
-ListaDeTiempos = [tiempo_ejecucionBubble, tiempo_ejecucionQuick]
-"""
+#Time RadixSort
+inicio = time.perf_counter()
+quicksort(lista3)
+fin = time.perf_counter()
+tiempo_ejecucionRadix = fin - inicio
+print(f"Tiempo de ejecución Radixsort: {tiempo_ejecucionRadix:.4f} segundos")
+
+#Time Sorted
+inicio = time.perf_counter()
+sorted(lista4)
+fin = time.perf_counter()
+tiempo_ejecucionSorted = fin - inicio
+print(f"Tiempo de ejecución Sorted: {tiempo_ejecucionSorted:.4f} segundos")
+
+ListaDeTiempos = [tiempo_ejecucionBubble, tiempo_ejecucionQuick, tiempo_ejecucionRadix, tiempo_ejecucionSorted]
+
 
 
 tamanos = [1, 10, 100, 200, 500, 700, 1000]
 lista_bubble =  Tiempos (bubble_sort, tamanos)
 lista_quicksort =  Tiempos (quicksort, tamanos)
 lista_Radix = Tiempos(radix_sort, tamanos)
-listas_ordenadas = [(lista_bubble, "BubbleSort"), (lista_quicksort, "QuickSort"), (lista_Radix, "RadixSort")]
+lista_Sorted = Tiempos(sorted, tamanos)
+listas_ordenadas = [(lista_bubble, "BubbleSort"), (lista_quicksort, "QuickSort"), (lista_Radix, "RadixSort"), (lista_Sorted, "Sorted")]
 #lista_metodos_ord = [(bubble_sort, lista_bubble),(quicksort, lista_quicksort)]
 
 
@@ -55,4 +72,3 @@ def graficar_tiempos(listas_ordenadas):
     plt.show()
 
 graficar_tiempos(listas_ordenadas)
-
