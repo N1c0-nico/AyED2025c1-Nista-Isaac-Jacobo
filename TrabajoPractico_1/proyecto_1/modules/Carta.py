@@ -64,13 +64,3 @@ if __name__ == "__main__":
     print(carta)
     carta.visible = True
     print(carta)
-    
-# mazo.py
-
-
-class DequeEmptyError(Exception):
-    pass  # Define una excepción personalizada para cuando el mazo está vacío
-
-class Mazo:
-    def __init__ (self, Carta):
-    
