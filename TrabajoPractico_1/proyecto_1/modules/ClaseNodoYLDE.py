@@ -66,53 +66,66 @@ class ListaDobleEnlazada:
             nuevo.siguiente = actual
             actual.anterior = nuevo
             self._longitud += 1
-
-    # Saca una caja de cierta posición y devuelve el dato
     def extraer(self, posicion=None):
         if self.esta_vacia():
-            raise IndexError("La lista está vacía.")
+            raise Exception("Lista vacía")
+        
         if posicion is None:
-            posicion = self._longitud - 1  # Si no dijeron cuál, sacamos la última
-        if posicion < -1 or posicion >= self._longitud:
-            raise IndexError("Posición fuera de rango.")
-        if posicion == -1:
-            nana = self.ultimo
-            self.ultimo.anterior = self.ultimo
-            self._longitud -= 1
-            return nana.dato
+            posicion = self._longitud - 1
+        elif posicion < 0:
+            posicion=self._longitud+posicion
+            if posicion <0: 
+                raise Exception("Posición inválida")
             
+        if posicion <0 or posicion>=self._longitud:
+            raise Exception("Posición inválida")
+        
         if posicion == 0:
-            dato = self.primero.dato
-            self.primero = self.primero.siguiente
+            nodo = self.primero
+            self.primero = nodo.siguiente
             if self.primero:
                 self.primero.anterior = None
             else:
                 self.ultimo = None
-        elif posicion == self._longitud:
-            dato = self.ultimo.dato
-            self.ultimo = self.ultimo.anterior
+            self._longitud -= 1
+            return nodo.dato
+        elif posicion == self._longitud - 1:
+            nodo = self.ultimo
+            self.ultimo = nodo.anterior
             if self.ultimo:
                 self.ultimo.siguiente = None
             else:
                 self.primero = None
+            self._longitud -= 1
+            return nodo.dato
         else:
             actual = self.primero
             for _ in range(posicion):
                 actual = actual.siguiente
-            dato = actual.dato
-            if actual.anterior is not None:
-                actual.anterior.siguiente = actual.siguiente
-            if actual.siguiente is not None:
-                actual.siguiente.anterior = actual.anterior
-
-            if actual == self.ultimo:
-                self.ultimo = actual.anterior
-            
-
-            # actual.anterior.siguiente = actual.siguiente
-            # actual.siguiente.anterior = actual.anterior
+            actual.anterior.siguiente = actual.siguiente
+            actual.siguiente.anterior = actual.anterior
             self._longitud -= 1
-            return dato
+            return actual.dato
+
+    def copiar(self):
+        lista_copia = ListaDobleEnlazada()
+        actual = self.primero
+        while actual is not None:
+            lista_copia.agregar_al_final(actual.dato)
+            actual = actual.siguiente
+        return lista_copia
+
+    def invertir(self):
+        actual = self.primero
+        aux = None
+        while actual is not None:
+            aux = actual.anterior
+            actual.anterior = actual.siguiente
+            actual.siguiente = aux
+            actual = actual.anterior
+        aux = self.primero
+        self.primero = self.ultimo
+        self.ultimo = aux
 
     # Hace una copia de la lista
     def copiar(self):
@@ -165,6 +178,7 @@ class ListaDobleEnlazada:
             yield actual.dato
             actual = actual.siguiente
 if __name__ == "__main__":
+
     l1 =    ListaDobleEnlazada ()
     for i in range (10):
         l1.agregar_al_final(i)
