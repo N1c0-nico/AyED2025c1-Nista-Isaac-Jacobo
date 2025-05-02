@@ -1,50 +1,49 @@
+# Clase que representa un nodo de la lista doblemente enlazada
 class Nodo:
     def __init__(self, dato):
-        self.dato = dato  # Seteamos el dato
-        self.anterior = None  # inicialmente no hay nada antes
-        self.siguiente = None  # inicialmente no hay nada después 
+        self.dato = dato  # Guarda el dato en el nodo
+        self.anterior = None  # Puntero al nodo anterior (al principio es None)
+        self.siguiente = None  # Puntero al nodo siguiente (al principio es None)
 
 # Clase que representa la lista doblemente enlazada
 class ListaDobleEnlazada:
     def __init__(self):
-        self.primero = None  # inicialmente no hay primer elemento
-        self.ultimo = None  # inicialmente no hay último elemento 
-        self._longitud = 0  # entonces la lista está vacía
+        self.primero = None  # Referencia al primer nodo
+        self.ultimo = None  # Referencia al último nodo
+        self._longitud = 0  # Contador de nodos
 
-    # verificamos si la lista está vacía
     def esta_vacia(self):
-        return self._longitud == 0
+        return self._longitud == 0  # Retorna True si la lista está vacía
 
-    # contamos los elementos que hay en la lista
     def __len__(self):
-        return self._longitud
+        return self._longitud  # Permite usar len(lista)
 
-    # Agrega un nodo al comienzo
+    # Agrega un nodo al comienzo de la lista
     def agregar_al_inicio(self, item):
-        nuevo = Nodo(item)  # Creamos una nueva caja con el dato
-        if self.esta_vacia():  # Si la lista está vacía...
-            self.primero = self.ultimo = nuevo  # Esa caja es la única, es primera y última
+        nuevo = Nodo(item)  # Crea el nuevo nodo
+        if self.esta_vacia():  # Si la lista está vacía
+            self.primero = self.ultimo = nuevo  # El nuevo nodo es el único, entonces es el primero y el último
         else:
-            nuevo.siguiente = self.primero  # El nuevo apunta al que era primero
-            self.primero.anterior = nuevo  # El viejo primero ahora sabe que hay alguien antes
-            self.primero = nuevo  # Ahora el nuevo es el primero
-        self._longitud += 1  # La lista creció
+            nuevo.siguiente = self.primero  # El nuevo apunta al que era el primero
+            self.primero.anterior = nuevo  # El anterior primero apunta hacia atrás al nuevo
+            self.primero = nuevo  # El nuevo pasa a ser el primero
+        self._longitud += 1  # Incrementamos la longitud
 
-    # Agrega una caja al final
+    # Agrega un nodo al final de la lista
     def agregar_al_final(self, item):
         nuevo = Nodo(item)
         if self.esta_vacia():
-            self.primero = self.ultimo = nuevo
+            self.primero = self.ultimo = nuevo  # Si la lista está vacía, es el único nodo
         else:
-            nuevo.anterior = self.ultimo  # El nuevo sabe quién era el último
-            self.ultimo.siguiente = nuevo  # El viejo último apunta al nuevo
-            self.ultimo = nuevo  # El nuevo ahora es el último
+            nuevo.anterior = self.ultimo  # El nuevo apunta hacia atrás al que era el último
+            self.ultimo.siguiente = nuevo  # El anterior último apunta hacia adelante al nuevo
+            self.ultimo = nuevo  # El nuevo es ahora el último
         self._longitud += 1
 
-    # Inserta una caja en cierta posición
+    # Inserta un nodo en una posición dada
     def insertar(self, item, posicion=None):
         if posicion is None:
-            self.agregar_al_final(item)  # Si no dijeron posición, va al final
+            self.agregar_al_final(item)  # Si no se da posición, se agrega al final
             return
         if posicion < 0 or posicion > self._longitud:
             raise IndexError("Posición fuera de rango.")
@@ -56,37 +55,39 @@ class ListaDobleEnlazada:
             nuevo = Nodo(item)
             actual = self.primero
             for _ in range(posicion):
-                actual = actual.siguiente  # Caminamos hasta la posición
+                actual = actual.siguiente  # Caminamos hasta la posición deseada
             anterior = actual.anterior
             anterior.siguiente = nuevo
             nuevo.anterior = anterior
             nuevo.siguiente = actual
             actual.anterior = nuevo
             self._longitud += 1
+
+    # Extrae (elimina y retorna) el nodo de una posición dada
     def extraer(self, posicion=None):
         if self.esta_vacia():
             raise Exception("Lista vacía")
         
         if posicion is None:
-            posicion = self._longitud - 1
+            posicion = self._longitud - 1  # Por defecto, extrae el último
         elif posicion < 0:
-            posicion=self._longitud+posicion
-            if posicion <0: 
+            posicion = self._longitud + posicion  # Soporte para índices negativos
+            if posicion < 0:
                 raise Exception("Posición inválida")
-            
-        if posicion <0 or posicion>=self._longitud:
+        
+        if posicion < 0 or posicion >= self._longitud:
             raise Exception("Posición inválida")
         
-        if posicion == 0:
+        if posicion == 0:  # Extraer el primero
             nodo = self.primero
             self.primero = nodo.siguiente
             if self.primero:
                 self.primero.anterior = None
             else:
-                self.ultimo = None
+                self.ultimo = None  # La lista quedó vacía
             self._longitud -= 1
             return nodo.dato
-        elif posicion == self._longitud - 1:
+        elif posicion == self._longitud - 1:  # Extraer el último
             nodo = self.ultimo
             self.ultimo = nodo.anterior
             if self.ultimo:
@@ -95,7 +96,7 @@ class ListaDobleEnlazada:
                 self.primero = None
             self._longitud -= 1
             return nodo.dato
-        else:
+        else:  # Extraer un nodo intermedio
             actual = self.primero
             for _ in range(posicion):
                 actual = actual.siguiente
@@ -104,6 +105,7 @@ class ListaDobleEnlazada:
             self._longitud -= 1
             return actual.dato
 
+    # Crea una copia (nueva lista con los mismos datos)
     def copiar(self):
         lista_copia = ListaDobleEnlazada()
         actual = self.primero
@@ -112,38 +114,17 @@ class ListaDobleEnlazada:
             actual = actual.siguiente
         return lista_copia
 
-    def invertir(self):
-        actual = self.primero
-        aux = None
-        while actual is not None:
-            aux = actual.anterior
-            actual.anterior = actual.siguiente
-            actual.siguiente = aux
-            actual = actual.anterior
-        aux = self.primero
-        self.primero = self.ultimo
-        self.ultimo = aux
-
-    # Hace una copia de la lista
-    def copiar(self):
-        nueva = ListaDobleEnlazada()
-        actual = self.primero
-        while actual is not None:
-            nueva.agregar_al_final(actual.dato)  # Copiamos dato por dato
-            actual = actual.siguiente
-        return nueva
-
-    # Invierte el orden de la lista
+    # Invierte la lista (da vuelta las conexiones entre nodos)
     def invertir(self):
         actual = self.primero
         while actual is not None:
-            actual.anterior, actual.siguiente = actual.siguiente, actual.anterior  # Damos vuelta las flechas
-            actual = actual.anterior  # Seguimos caminando, ahora por el nuevo siguiente
-        self.primero, self.ultimo = self.ultimo, self.primero  # Cambiamos quién es el primero y quién el último
+            actual.anterior, actual.siguiente = actual.siguiente, actual.anterior  # Intercambia los punteros
+            actual = actual.anterior  # Se mueve hacia adelante en el nuevo orden
+        self.primero, self.ultimo = self.ultimo, self.primero  # Intercambia primero y último
 
-    # Une esta lista con otra
+    # Une esta lista con otra (sin modificar la otra)
     def concatenar(self, otra):
-        copia = otra.copiar()  # Copiamos la otra para no modificarla
+        copia = otra.copiar()  # Se trabaja con una copia para no afectar la lista original
         if copia.esta_vacia():
             return
         if self.esta_vacia():
@@ -155,13 +136,13 @@ class ListaDobleEnlazada:
             self.ultimo = copia.ultimo
         self._longitud += len(copia)
 
-    # Permite sumar dos listas con el operador +
+    # Permite usar el operador + entre listas
     def __add__(self, otra):
         nueva = self.copiar()
         nueva.concatenar(otra)
         return nueva
 
-    # Para imprimir la lista como texto
+    # Representación en texto de la lista (útil para print)
     def __str__(self):
         elementos = []
         actual = self.primero
@@ -169,17 +150,19 @@ class ListaDobleEnlazada:
             elementos.append(str(actual.dato))
             actual = actual.siguiente
         return "[" + " <-> ".join(elementos) + "]"
+
+    # Permite iterar sobre la lista con un for
     def __iter__(self):
         actual = self.primero
         while actual:
             yield actual.dato
             actual = actual.siguiente
-if __name__ == "__main__":
 
-    l1 =    ListaDobleEnlazada ()
-    for i in range (10):
-        l1.agregar_al_final(i)
-    
-    print(len(l1))
-    extraido = l1.extraer()
-    print(len(l1))
+# Ejemplo de uso
+if __name__ == "__main__":
+    l1 = ListaDobleEnlazada()
+    for i in range(10):
+        l1.agregar_al_final(i)  # Agrega del 0 al 9
+    print(len(l1))  # Imprime la longitud (10)
+    extraido = l1.extraer()  # Extrae el último elemento (9)
+    print(len(l1))  # Imprime la nueva longitud (9)

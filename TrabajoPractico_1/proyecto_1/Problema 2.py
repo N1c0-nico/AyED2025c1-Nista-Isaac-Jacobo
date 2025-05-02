@@ -1,22 +1,22 @@
-#  Se establece la clase Nodo, la cual puede intepretarse como una cajita de tamaño fijo que almacena un item y dos punteros, uno que señala al nodo anterior y otro al nodo siguiente.
+# Clase Nodo, que representa un nodo de la lista doblemente enlazada
 class Nodo:
     def __init__(self, dato):
         self.dato = dato  # Seteamos el dato
-        self.anterior = None  # inicialmente no hay nada antes
-        self.siguiente = None  # inicialmente no hay nada después 
+        self.anterior = None  # Inicialmente no hay nada antes
+        self.siguiente = None  # Inicialmente no hay nada después
 
 # Clase que representa la lista doblemente enlazada
 class ListaDobleEnlazada:
     def __init__(self):
-        self.primero = None  # inicialmente no hay primer elemento
-        self.ultimo = None  # inicialmente no hay último elemento 
-        self._longitud = 0  # entonces la lista está vacía
+        self.primero = None  # Inicialmente no hay primer elemento
+        self.ultimo = None  # Inicialmente no hay último elemento
+        self._longitud = 0  # La lista está vacía al principio
 
-    # verificamos si la lista está vacía
+    # Verificamos si la lista está vacía
     def esta_vacia(self):
         return self._longitud == 0
 
-    # contamos los elementos que hay en la lista
+    # Contamos los elementos que hay en la lista
     def __len__(self):
         return self._longitud
 
@@ -79,7 +79,7 @@ class ListaDobleEnlazada:
         if posicion < 0 or posicion >= self._longitud:
             raise IndexError("Posición fuera de rango.")
 
-    # Extraer al inicio
+        # Extraer al inicio
         if posicion == 0:
             dato = self.primero.dato
             self.primero = self.primero.siguiente
@@ -88,7 +88,7 @@ class ListaDobleEnlazada:
             else:
                 self.ultimo = None
 
-    # Extraer al final
+        # Extraer al final
         elif posicion == self._longitud - 1:
             dato = self.ultimo.dato
             self.ultimo = self.ultimo.anterior
@@ -97,7 +97,7 @@ class ListaDobleEnlazada:
             else:
                 self.primero = None
 
-    # Extraer en posición intermedia
+        # Extraer en posición intermedia
         else:
             actual = self.primero
             for _ in range(posicion):
@@ -108,10 +108,6 @@ class ListaDobleEnlazada:
 
         self._longitud -= 1
         return dato
-
-
-   
-  
 
     # Hace una copia de la lista
     def copiar(self):
