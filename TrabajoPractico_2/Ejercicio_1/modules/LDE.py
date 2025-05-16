@@ -159,7 +159,7 @@ class ListaDobleEnlazada:
             actual = actual.siguiente
 
 # Ejemplo de uso
-if _name_ == "_main_":
+if __name__ == "__main__":
     l1 = ListaDobleEnlazada()
     for i in range(10):
         l1.agregar_al_final(i)  # Agrega del 0 al 9
