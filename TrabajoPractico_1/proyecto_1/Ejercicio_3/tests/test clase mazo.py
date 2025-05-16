@@ -1,7 +1,7 @@
 #test clase mazo proporcionado por la cátedra
 
-from modules.Carta import Carta
-from modules.Mazon import Mazo
+from Ejercicio_3.modules.Clase_Carta import Carta
+from Ejercicio_3.modules.Mazon import Mazo
 import unittest
 
 class TestMazo(unittest.TestCase):
