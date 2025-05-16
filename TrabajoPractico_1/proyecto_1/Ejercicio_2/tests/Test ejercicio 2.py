@@ -7,7 +7,7 @@ Created on Thu Sep  1 14:00:21 2022
 
 import unittest
 import random
-from modules import ClaseNodoYLDE
+from Ejercicio_2.modules import ClaseNodoYLDE
 
 
 class Test_LDE(unittest.TestCase):

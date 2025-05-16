@@ -1,10 +1,11 @@
 import sys
 import os
+from Ejercicio_2.modules.ClaseNodoYLDE import ListaDobleEnlazada # Importa la clase ListaDobleEnlazada
+
 # Agregamos al path la carpeta dos niveles arriba, para encontrar los módulos personalizados
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 # Importamos la clase ListaDobleEnlazada desde el módulo correspondiente
-from modules.ClaseNodoYLDE import ListaDobleEnlazada  # Importa la clase ListaDobleEnlazada
 
 # Definimos una excepción personalizada para cuando el mazo está vacío
 class DequeEmptyError(Exception):
