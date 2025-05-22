@@ -1,7 +1,7 @@
 # modules/ordenamiento.py
 
-class Nodo:
-    def _init_(self, clave, valor):
+class Arbol:
+    def __init__(self, clave, valor):
         self.clave = clave
         self.cargaUtil = valor
         self.hijoIzquierdo = None
@@ -37,13 +37,13 @@ class Nodo:
             self.hijoDerecho.padre = self
 
 class ColaPrioridad:
-    def _init_(self):
+    def __init__(self):
         self.raiz = None
         self.tamano = 0
 
     def agregar(self, clave, valor):
         if self.raiz is None:
-            self.raiz = Nodo(clave, valor)
+            self.raiz = Arbol(clave, valor)
         else:
             self._agregar(clave, valor, self.raiz)
         self.tamano += 1
@@ -53,13 +53,13 @@ class ColaPrioridad:
             if nodoActual.tieneHijoIzquierdo():
                 self._agregar(clave, valor, nodoActual.hijoIzquierdo)
             else:
-                nodoActual.hijoIzquierdo = Nodo(clave, valor)
+                nodoActual.hijoIzquierdo = Arbol(clave, valor)
                 nodoActual.hijoIzquierdo.padre = nodoActual
         else:
             if nodoActual.tieneHijoDerecho():
                 self._agregar(clave, valor, nodoActual.hijoDerecho)
             else:
-                nodoActual.hijoDerecho = Nodo(clave, valor)
+                nodoActual.hijoDerecho = Arbol(clave, valor)
                 nodoActual.hijoDerecho.padre = nodoActual
 
     def _setitem_(self, clave, valor):
