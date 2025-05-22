@@ -20,48 +20,48 @@ class TestColaPrioridad(unittest.TestCase):
         for clave in claves:
             self.assertEqual( self.ColaPrioridad.obtener(clave), 2*clave )        
     
-    # def test_insercion(self):
-    #     """
-    #     Verifica la insercion binaria tradicional
-    #     """
-    #     self.agregar_claves(45, 100, 20, 80, 10, 110, 50)
-    #     # verifico posicion relativa desde la raiz
-    #     self.assertEqual(self.ColaPrioridad.raiz.clave, 45,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.cargaUtil, 90,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.clave, 100,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.cargaUtil, 200,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.clave, 20,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.cargaUtil, 40,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.clave, 80,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.cargaUtil, 160,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.hijoIzquierdo.clave, 10,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.hijoIzquierdo.cargaUtil, 20,
-    #                     "ColaPrioridad insertado incorrectamente")
-    #     # verifico ColaPrioridads hojas
-    #     self.assertTrue(self.ColaPrioridad.raiz.hijoIzquierdo.hijoIzquierdo.esHoja(), 
-    #                     "ColaPrioridad 10 debe ser un ColaPrioridad hoja")
-    #     self.assertTrue(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.hijoIzquierdo.esHoja(), 
-    #                     "ColaPrioridad 50 debe ser un ColaPrioridad hoja")
-    #     self.assertTrue(self.ColaPrioridad.raiz.hijoDerecho.hijoDerecho.esHoja(), 
-    #                     "ColaPrioridad 110 debe ser un ColaPrioridad hoja")
-    #     # verifico ColaPrioridads internos
-    #     self.assertFalse(self.ColaPrioridad.raiz.esHoja(), 
-    #                     "ColaPrioridad 45 debe ser ColaPrioridad interno, no un ColaPrioridad hoja")
-    #     self.assertFalse(self.ColaPrioridad.raiz.hijoIzquierdo.esHoja(), 
-    #                     "ColaPrioridad 20 debe ser ColaPrioridad interno, no un ColaPrioridad hoja")
-    #     self.assertFalse(self.ColaPrioridad.raiz.hijoDerecho.esHoja(), 
-    #                     "ColaPrioridad 100 debe ser un ColaPrioridad interno, no un ColaPrioridad hoja")
-    #     self.assertFalse(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.esHoja(), 
-    #                     "ColaPrioridad 80 debe ser un ColaPrioridad interno, no un ColaPrioridad hoja")
+    def test_insercion(self):
+        """
+        Verifica la insercion binaria tradicional
+        """
+        self.agregar_claves(45, 100, 20, 80, 10, 110, 50)
+        # verifico posicion relativa desde la raiz
+        self.assertEqual(self.ColaPrioridad.raiz.clave, 45,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.cargaUtil, 90,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.clave, 100,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.cargaUtil, 200,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.clave, 20,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.cargaUtil, 40,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.clave, 80,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.cargaUtil, 160,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.hijoIzquierdo.clave, 10,
+                        "ColaPrioridad insertado incorrectamente")
+        self.assertEqual(self.ColaPrioridad.raiz.hijoIzquierdo.hijoIzquierdo.cargaUtil, 20,
+                        "ColaPrioridad insertado incorrectamente")
+        # verifico ColaPrioridads hojas
+        self.assertTrue(self.ColaPrioridad.raiz.hijoIzquierdo.hijoIzquierdo.esHoja(), 
+                        "ColaPrioridad 10 debe ser un ColaPrioridad hoja")
+        self.assertTrue(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.hijoIzquierdo.esHoja(), 
+                        "ColaPrioridad 50 debe ser un ColaPrioridad hoja")
+        self.assertTrue(self.ColaPrioridad.raiz.hijoDerecho.hijoDerecho.esHoja(), 
+                        "ColaPrioridad 110 debe ser un ColaPrioridad hoja")
+        # verifico ColaPrioridads internos
+        self.assertFalse(self.ColaPrioridad.raiz.esHoja(), 
+                        "ColaPrioridad 45 debe ser ColaPrioridad interno, no un ColaPrioridad hoja")
+        self.assertFalse(self.ColaPrioridad.raiz.hijoIzquierdo.esHoja(), 
+                        "ColaPrioridad 20 debe ser ColaPrioridad interno, no un ColaPrioridad hoja")
+        self.assertFalse(self.ColaPrioridad.raiz.hijoDerecho.esHoja(), 
+                        "ColaPrioridad 100 debe ser un ColaPrioridad interno, no un ColaPrioridad hoja")
+        self.assertFalse(self.ColaPrioridad.raiz.hijoDerecho.hijoIzquierdo.esHoja(), 
+                        "ColaPrioridad 80 debe ser un ColaPrioridad interno, no un ColaPrioridad hoja")
     
     # def test_operador_contains(self):
     #     """

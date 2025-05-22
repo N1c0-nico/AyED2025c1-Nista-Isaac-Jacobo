@@ -22,12 +22,12 @@ class ColaPrioridad:
         # Si es el de menor prioridad, va al final
         if not insertado:
             self.items.append(nuevo)
-
-    def desencolar(self):
-        """Devuelve y remueve el elemento con mayor prioridad (al inicio de la lista)."""
-        if self.items:
-            return self.items.pop(0)
-        return None
+    def obtener(self, clave):
+        # """Devuelve el valor asociado a la clave si existe, sino lanza una excepción."""
+        for prioridad, dato in self.items:
+            if prioridad == clave:
+                return dato
+        raise Exception(f"Clave {clave} no encontrada")
 
     def esta_vacia(self):
         return len(self.items) == 0
