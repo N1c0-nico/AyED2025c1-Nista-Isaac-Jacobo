@@ -2,14 +2,14 @@
 
 
 import unittest
-from modules.nuevoarbol import ArbolBinario
+from modules.arbol import ArbolBinarioDB
 import numpy as np
 
 
 class Testabb(unittest.TestCase):
     
     def setUp(self):
-        self.arbol = ArbolBinario()
+        self.arbol = ArbolBinarioDB()
     
     def agregar_claves(self, *args):
         for value in args:
@@ -70,7 +70,7 @@ class Testabb(unittest.TestCase):
     def test_operador_contains(self):
         """
         Verifica la sobrecarga del operador 'in', que corrobora si
-        un elemento está o no en el ArbolBinario
+        un elemento está o no en el ArbolBinarioDB
         """
         self.agregar_claves(45, 100, 20, 80, 10)
         self.assertTrue( 100 in self.arbol )
@@ -144,21 +144,21 @@ class Testabb(unittest.TestCase):
     def test_tamano(self):
         # insercion
         claves = [5, 7, 3, 4, 9, 1, 6, 8]
-        self.assertEqual(self.arbol.tamano, 0, "Al instanciar el ArbolBinario, su tamaño debe ser cero")
+        self.assertEqual(self.arbol.tamano, 0, "Al instanciar el ArbolBinarioDB, su tamaño debe ser cero")
         for n, i in enumerate(claves):
             self.arbol.agregar(clave=i, valor=2*i)
-            self.assertEqual(self.arbol.tamano, n+1, f"ArbolBinario deberia tener {n+1} elementos")
+            self.assertEqual(self.arbol.tamano, n+1, f"ArbolBinarioDB deberia tener {n+1} elementos")
         self.assertEqual(len(self.arbol), len(claves), "El operador len() debería estar correctamente sobrecargado")
         # eliminacion
         size = len(self.arbol)
         for n, i in enumerate(claves):
             self.arbol.eliminar(clave=i)
-            self.assertEqual(self.arbol.tamano, size-1-n, f"ArbolBinario deberia tener {size-1-n} elementos")
+            self.assertEqual(self.arbol.tamano, size-1-n, f"ArbolBinarioDB deberia tener {size-1-n} elementos")
         # (re)agregado
         np.random.shuffle(claves)
         for n, i in enumerate(claves):
             self.arbol.agregar(clave=i, valor=2*i)
-            self.assertEqual(self.arbol.tamano, n+1, f"ArbolBinario deberia tener {n+1} elementos")
+            self.assertEqual(self.arbol.tamano, n+1, f"ArbolBinarioDB deberia tener {n+1} elementos")
     
     def test_excepciones(self):
         """
@@ -179,7 +179,7 @@ class Testabb(unittest.TestCase):
         
     def test_sobrecarga_indexacion(self):
         """
-        Verifica que el ArbolBinario tenga sobrecargado los métodos necesarios
+        Verifica que el ArbolBinarioDB tenga sobrecargado los métodos necesarios
         para poder asignar, acceder y eliminar elementos mediante 
         indexación (es decir, con los corchetes)
         """

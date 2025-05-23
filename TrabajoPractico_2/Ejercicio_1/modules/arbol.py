@@ -37,10 +37,19 @@ class NodoArbol:
             self.hijoDerecho.padre = self
 
 
-class ArbolBinario:
+class ArbolBinarioDB:
     def __init__(self):
         self.__raiz = None
         self.__tamano = 0
+
+    @property
+    def tamano(self):
+        return self.__tamano
+    
+    @property
+    def raiz(self):
+        return self.__raiz
+
 
     def agregar(self, clave, valor):
         if self.__raiz is None:
