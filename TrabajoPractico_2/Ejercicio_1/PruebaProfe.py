@@ -1,4 +1,4 @@
-from modules.arbol import ArbolBinario
+from modules.nuevoarbol import ArbolBinario
 
 # Insertar casos LL (30, 20, 10) debería provocar una rotación simple a derecha
 arbolillo = ArbolBinario()
