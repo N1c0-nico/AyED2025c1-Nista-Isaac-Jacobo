@@ -39,15 +39,15 @@ class NodoArbol:
 
 class ArbolBinario:
     def __init__(self):
-        self.raiz = None
-        self.tamano = 0
+        self.__raiz = None
+        self.__tamano = 0
 
     def agregar(self, clave, valor):
-        if self.raiz is None:
-            self.raiz = NodoArbol(clave, valor)
+        if self.__raiz is None:
+            self.__raiz = NodoArbol(clave, valor)
         else:
-            self._agregar(clave, valor, self.raiz)
-        self.tamano += 1
+            self._agregar(clave, valor, self.__raiz)
+        self.__tamano += 1
 
     def _agregar(self, clave, valor, nodoActual):
         if clave < nodoActual.clave:
@@ -70,7 +70,7 @@ class ArbolBinario:
         return self.obtener(clave)
 
     def obtener(self, clave):
-        nodo = self._buscar(clave, self.raiz)
+        nodo = self._buscar(clave, self.__raiz)
         if nodo is None:
             raise Exception("Clave no encontrada")
         return nodo.cargaUtil
@@ -86,10 +86,10 @@ class ArbolBinario:
             return self._buscar(clave, nodoActual.hijoDerecho)
 
     def __contains__(self, clave):
-        return self._buscar(clave, self.raiz) is not None
+        return self._buscar(clave, self.__raiz) is not None
 
     def __iter__(self):
-        yield from self._inOrden(self.raiz)
+        yield from self._inOrden(self.__raiz)
 
     def _inOrden(self, nodo):
         if nodo is not None:
@@ -101,11 +101,11 @@ class ArbolBinario:
         self.eliminar(clave)
 
     def eliminar(self, clave):
-        nodo = self._buscar(clave, self.raiz)
+        nodo = self._buscar(clave, self.__raiz)
         if nodo is None:
             raise Exception("Clave no encontrada")
         self._eliminarNodo(nodo)
-        self.tamano -= 1
+        self.__tamano -= 1
 
     def _encontrarSucesor(self, nodo):
         actual = nodo.hijoDerecho
@@ -115,7 +115,7 @@ class ArbolBinario:
 
     def _trasplantar(self, u, v):
         if u.esRaiz():
-            self.raiz = v
+            self.__raiz = v
         elif u.esHijoIzquierdo():
             u.padre.hijoIzquierdo = v
         else:
@@ -143,4 +143,4 @@ class ArbolBinario:
                 sucesor.hijoIzquierdo.padre = sucesor
 
     def __len__(self):
-        return self.tamano
+        return self.__tamano

@@ -2,7 +2,7 @@
 
 
 import unittest
-from modules.arbol import ArbolBinario
+from modules.nuevoarbol import ArbolBinario
 import numpy as np
 
 
