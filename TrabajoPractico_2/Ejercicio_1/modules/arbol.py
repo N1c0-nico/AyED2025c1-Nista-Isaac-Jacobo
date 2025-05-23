@@ -1,6 +1,6 @@
 # modules/ordenamiento.py
 
-class Arbol:
+class NodoArbol:
     def __init__(self, clave, valor):
         self.clave = clave
         self.cargaUtil = valor
@@ -36,14 +36,15 @@ class Arbol:
         if self.tieneHijoDerecho():
             self.hijoDerecho.padre = self
 
-class ColaPrioridad:
+
+class ArbolBinario:
     def __init__(self):
         self.raiz = None
         self.tamano = 0
 
     def agregar(self, clave, valor):
         if self.raiz is None:
-            self.raiz = Arbol(clave, valor)
+            self.raiz = NodoArbol(clave, valor)
         else:
             self._agregar(clave, valor, self.raiz)
         self.tamano += 1
@@ -53,19 +54,19 @@ class ColaPrioridad:
             if nodoActual.tieneHijoIzquierdo():
                 self._agregar(clave, valor, nodoActual.hijoIzquierdo)
             else:
-                nodoActual.hijoIzquierdo = Arbol(clave, valor)
+                nodoActual.hijoIzquierdo = NodoArbol(clave, valor)
                 nodoActual.hijoIzquierdo.padre = nodoActual
         else:
             if nodoActual.tieneHijoDerecho():
                 self._agregar(clave, valor, nodoActual.hijoDerecho)
             else:
-                nodoActual.hijoDerecho = Arbol(clave, valor)
+                nodoActual.hijoDerecho = NodoArbol(clave, valor)
                 nodoActual.hijoDerecho.padre = nodoActual
 
-    def _setitem_(self, clave, valor):
+    def __setitem__(self, clave, valor):
         self.agregar(clave, valor)
 
-    def _getitem_(self, clave):
+    def __getitem__(self, clave):
         return self.obtener(clave)
 
     def obtener(self, clave):
@@ -84,10 +85,10 @@ class ColaPrioridad:
         else:
             return self._buscar(clave, nodoActual.hijoDerecho)
 
-    def _contains_(self, clave):
+    def __contains__(self, clave):
         return self._buscar(clave, self.raiz) is not None
 
-    def _iter_(self):
+    def __iter__(self):
         yield from self._inOrden(self.raiz)
 
     def _inOrden(self, nodo):
@@ -96,7 +97,7 @@ class ColaPrioridad:
             yield (nodo.clave, nodo.cargaUtil)
             yield from self._inOrden(nodo.hijoDerecho)
 
-    def _delitem_(self, clave):
+    def __delitem__(self, clave):
         self.eliminar(clave)
 
     def eliminar(self, clave):
@@ -141,5 +142,5 @@ class ColaPrioridad:
             if sucesor.hijoIzquierdo:
                 sucesor.hijoIzquierdo.padre = sucesor
 
-    def _len_(self):
+    def __len__(self):
         return self.tamano
