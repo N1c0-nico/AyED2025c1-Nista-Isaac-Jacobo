@@ -14,7 +14,7 @@ cola_de_espera = list()
 
 # Ciclo que gestiona la simulación
 for i in range(n):
-    # Fecha y hora de entrada de un paciente
+     #Fecha y hora de entrada de un paciente
     ahora = datetime.datetime.now()
     fecha_y_hora = ahora.strftime('%d/%m/%Y %H:%M:%S')
     print('-*-'*15)
