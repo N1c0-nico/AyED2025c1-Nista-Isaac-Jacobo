@@ -179,4 +179,89 @@ class ArbolBinarioDB:
     def esta_balanceado(self):
         balanceado, _ = self.__estabalanceado(self.__raiz)
         return balanceado
+    
+    
+    #Las siguientes funciones fueron agregadas para que nuestro código pase el test
+    
 
+    def obtener(self, clave):
+        nodo = self._obtener_nodo(clave, self.__raiz)
+        if nodo is None:
+            raise KeyError(f"Clave no encontrada: {clave}")
+        return nodo.cargaUtil
+
+    def _obtener_nodo(self, clave, nodoActual):
+        if nodoActual is None:
+            return None
+        if clave == nodoActual.clave:
+            return nodoActual
+        elif clave < nodoActual.clave:
+            return self._obtener_nodo(clave, nodoActual.hijoIzquierdo)
+        else:
+            return self._obtener_nodo(clave, nodoActual.hijoDerecho)
+    def __contains__(self, clave):
+        return self._obtener_nodo(clave, self.__raiz) is not None
+    def eliminar(self, clave):
+        self.__raiz = self._eliminar(self.__raiz, clave)
+        if self.__raiz:
+            self.__raiz.padre = None
+
+    def _eliminar(self, nodo, clave):
+        if nodo is None:
+            return None
+
+        if clave < nodo.clave:
+            nodo.hijoIzquierdo = self._eliminar(nodo.hijoIzquierdo, clave)
+            if nodo.hijoIzquierdo:
+                nodo.hijoIzquierdo.padre = nodo
+        elif clave > nodo.clave:
+            nodo.hijoDerecho = self._eliminar(nodo.hijoDerecho, clave)
+            if nodo.hijoDerecho:
+                nodo.hijoDerecho.padre = nodo
+        else:
+            # Caso 1: Sin hijos
+            if nodo.hijoIzquierdo is None and nodo.hijoDerecho is None:
+                self.__tamano -= 1
+                return None
+            # Caso 2: Un solo hijo
+            elif nodo.hijoIzquierdo is None:
+                temp = nodo.hijoDerecho
+                temp.padre = nodo.padre
+                self.__tamano -= 1
+                return temp
+            elif nodo.hijoDerecho is None:
+                temp = nodo.hijoIzquierdo
+                temp.padre = nodo.padre
+                self.__tamano -= 1
+                return temp
+            # Caso 3: Dos hijos
+            else:
+                sucesor = self._minimo(nodo.hijoDerecho)
+                nodo.clave, nodo.cargaUtil = sucesor.clave, sucesor.cargaUtil
+                nodo.hijoDerecho = self._eliminar(nodo.hijoDerecho, sucesor.clave)
+                if nodo.hijoDerecho:
+                    nodo.hijoDerecho.padre = nodo
+
+        self._actualizar_altura(nodo)
+
+        # Rebalanceo AVL
+        balance = self._balance_factor(nodo)
+
+        if balance > 1 and self._balance_factor(nodo.hijoIzquierdo) >= 0:
+            return self._rotacion_derecha(nodo)
+        if balance > 1 and self._balance_factor(nodo.hijoIzquierdo) < 0:
+            nodo.hijoIzquierdo = self._rotacion_izquierda(nodo.hijoIzquierdo)
+            return self._rotacion_derecha(nodo)
+        if balance < -1 and self._balance_factor(nodo.hijoDerecho) <= 0:
+            return self._rotacion_izquierda(nodo)
+        if balance < -1 and self._balance_factor(nodo.hijoDerecho) > 0:
+            nodo.hijoDerecho = self._rotacion_derecha(nodo.hijoDerecho)
+            return self._rotacion_izquierda(nodo)
+
+        return nodo
+
+    def _minimo(self, nodo):
+        actual = nodo
+        while actual.hijoIzquierdo is not None:
+            actual = actual.hijoIzquierdo
+        return actual
