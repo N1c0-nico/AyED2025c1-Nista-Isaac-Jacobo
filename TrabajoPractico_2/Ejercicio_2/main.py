@@ -1,6 +1,5 @@
 from modules2.temperaturasDB import TemperaturasDB
 
-
 def test_base_datos_temperaturas():
     bd = TemperaturasDB()
 
