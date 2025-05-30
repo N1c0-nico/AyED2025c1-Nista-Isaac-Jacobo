@@ -1,5 +1,5 @@
 from datetime import datetime
-from Ejercicio_1.modules.arbol import ArbolBinarioDB
+from modules.arbol import ArbolBinarioDB
 
 class Temperaturas_DB:
     def __init__(self):
