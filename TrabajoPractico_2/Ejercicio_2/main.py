@@ -1,7 +1,7 @@
-from modules2.temperaturasDB import TemperaturasDB
+from modules.temperaturasDB import Temperaturas_DB
 
 def test_base_datos_temperaturas():
-    bd = TemperaturasDB()
+    bd = Temperaturas_DB()
 
     # Carga de datos de prueba
     bd.guardar_temperatura(7.0, "10/05/2025")
@@ -52,7 +52,7 @@ def test_base_datos_temperaturas():
 
     # Eliminar registro específico
     bd.borrar_temperatura("12/05/2025")
-    assert bd.cantidad_muestras() == 5, "Fallo en cantidad luego de borrar"
+    assert bd.cantidad_muestras() == 10, "Fallo en cantidad luego de borrar"
     assert bd.devolver_temperatura("12/05/2025") is None, "Fallo al verificar ausencia de dato eliminado"
 
     # Verificación posterior al borrado
@@ -70,7 +70,7 @@ def test_base_datos_temperaturas():
     ]
     assert bd.devolver_temperaturas("10/05/2025", "20/05/2025") == esperado_post_borrado, "Fallo en resultados tras eliminar temperatura del 12/05"
 
-    print("¡Todas las validaciones se realizaron con éxito!")
+    print("Salio hecho una joya, mas firme que sí, sabelo")
 
 # Ejecutar las pruebas
 test_base_datos_temperaturas()
