@@ -1,4 +1,4 @@
-from modules.Monticulo import MonticuloBinario
+from modules2 import MonticuloBinario
 class ColaDePrioridad:
     def __init__(self):
         self.monticulo = MonticuloBinario()
