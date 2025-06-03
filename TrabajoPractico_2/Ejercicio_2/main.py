@@ -1,9 +1,10 @@
 from modules.temperaturasDB import Temperaturas_DB
+# Creamos un test para poder probar nuestra ColaDePrioridad :D
 
-def test_base_datos_temperaturas():
+def test_base_datos_temperaturas(): # Creamos la función que probará la clase
     bd = Temperaturas_DB()
 
-    # Carga de datos de prueba
+    # Cargamos datos de prueba
     bd.guardar_temperatura(7.0, "10/05/2025")
     bd.guardar_temperatura(10.7, "11/05/2025")
     bd.guardar_temperatura(3.5, "12/05/2025")
@@ -16,7 +17,7 @@ def test_base_datos_temperaturas():
     bd.guardar_temperatura(10.3, "19/05/2025")
     bd.guardar_temperatura(12.7, "20/05/2025")
 
-    # Verificar cantidad total
+    # Verificamos cantidad total
     assert bd.cantidad_muestras() == 11, "Fallo en cantidad_muestras()"
 
     # Recuperación individual por fecha
@@ -24,13 +25,13 @@ def test_base_datos_temperaturas():
     assert bd.devolver_temperatura("14/05/2025") == 17.1, "Fallo en devolver_temperatura para 14/05/2025"
     assert bd.devolver_temperatura("18/05/2025") == 15.2, "Fallo en devolver_temperatura para 11/05/2025"
 
-    # Máximo en rango
+    # Buscamos el máximo en rango
     assert bd.max_temp_rango("10/05/2025", "20/05/2025") == 22.3, "Fallo en max_temp_rango del 10 al 14/05"
 
-    # Mínimo en rango
+    # Buscamos el mínimo en rango
     assert bd.min_temp_rango("10/05/2025", "20/05/2025") == 3.5, "Fallo en min_temp_rango del 10 al 15/05"
 
-    # Extremos dentro de un intervalo
+    # Buscamos el extremos dentro del intervalo
     temp_min, temp_max = bd.temp_extremos_rango("10/05/2025", "20/05/2025")
     assert temp_min == 3.5 and temp_max == 22.3, "Fallo en temp_extremos_rango del 10 al 14/05"
 

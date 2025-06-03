@@ -1,27 +1,21 @@
-from modules.arbolAVL import ArbolBinarioBusqueda  # Importa la clase ArbolBinarioBusqueda desde el módulo arbolAVL
+from modules.arbolAVL import ArbolBinarioBusqueda 
 
 class ColaDePrioridad:
-    def __init__(self):
-        # Inicializa una nueva instancia de ColaDePrioridad creando un árbol binario de búsqueda vacío
+    def __init__(self): # Creamos la clase de ColaDePrioridad y le añadimos un árbol
         self.arbol = ArbolBinarioBusqueda()
 
-    def encolar(self, clave, valor):
-        # Inserta un nuevo elemento en la cola de prioridad usando la clave para el orden y un valor asociado
+    def encolar(self, clave, valor): # Creamos una función encargada de añadir elementos a la cosa
         self.arbol.insertar(clave, valor)
 
-    def desencolar(self, clave):
-        # Elimina el elemento con la clave dada de la cola de prioridad, quitándolo del árbol
+    def desencolar(self, clave): # Creamos una función encargada de eliminar lementos de la cola
         self.arbol.eliminar(clave)
 
-    def obtener(self, clave):
-        # Busca y devuelve el valor asociado a la clave dada dentro del árbol (cola de prioridad)
+    def obtener(self, clave): # Creamos una clase que devuelve el valor asociado a un elemento de la cola
         return self.arbol.buscar(clave)
 
-    def __iter__(self):
-        # Permite iterar sobre la cola de prioridad devolviendo un iterador sobre el árbol
+    def __iter__(self): # Función encargada de iterar dentro de la cola
         return iter(self.arbol)
 
     @property
-    def tamano(self):
-        # Propiedad que devuelve la cantidad de elementos actualmente almacenados en la cola de prioridad
+    def tamano(self): # Propiedad encargada de devolver la cantidad de elementos en la cola
         return len(self.arbol)
