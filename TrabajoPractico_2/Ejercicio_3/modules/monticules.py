@@ -16,6 +16,8 @@ class MonticuloBinario:
 
     def esta_vacio(self):
         return len(self.heap) == 0
+    
+    #Agremos las suguientes funciones para el correcto funcionamiento del algoritmo
 
     def __subir(self, indice):
         while indice > 0:
