@@ -5,30 +5,17 @@ class NodoArbol:
         self.hijoIzquierdo = izquierdo
         self.hijoDerecho = derecho
         self.padre = padre
+        self.balance = 0  # balance AVL
 
-    def tieneHijoIzquierdo(self):
-        return self.hijoIzquierdo is not None
-
-    def tieneHijoDerecho(self):
-        return self.hijoDerecho is not None
-
-    def esHijoIzquierdo(self):
-        return self.padre and self.padre.hijoIzquierdo == self
-
-    def esHijoDerecho(self):
-        return self.padre and self.padre.hijoDerecho == self
-
-    def esRaiz(self):
-        return self.padre is None
-
-    def esHoja(self):
-        return not (self.hijoDerecho or self.hijoIzquierdo)
-
-    def tieneAlgunHijo(self):
-        return self.hijoDerecho or self.hijoIzquierdo
-
-    def tieneAmbosHijos(self):
-        return self.hijoDerecho and self.hijoIzquierdo
+    # Métodos de consulta (mismos que ya tenías)
+    def tieneHijoIzquierdo(self): return self.hijoIzquierdo is not None
+    def tieneHijoDerecho(self): return self.hijoDerecho is not None
+    def esHijoIzquierdo(self): return self.padre and self.padre.hijoIzquierdo == self
+    def esHijoDerecho(self): return self.padre and self.padre.hijoDerecho == self
+    def esRaiz(self): return self.padre is None
+    def esHoja(self): return not (self.hijoDerecho or self.hijoIzquierdo)
+    def tieneAlgunHijo(self): return self.hijoDerecho or self.hijoIzquierdo
+    def tieneAmbosHijos(self): return self.hijoDerecho and self.hijoIzquierdo
 
     def reemplazarDatoDeNodo(self, clave, valor, hizq, hder):
         self.clave = clave
@@ -40,141 +27,165 @@ class NodoArbol:
         if self.tieneHijoDerecho():
             self.hijoDerecho.padre = self
 
+from modules.arbolAVL import NodoArbol
 
 class ArbolBinarioBusqueda:
     def __init__(self):
         self.raiz = None
         self.tamano = 0
 
-    def longitud(self):
-        return self.tamano
-
     def __len__(self):
         return self.tamano
 
-    def agregar(self, clave, valor):
-        if self.raiz:
-            self._agregar(clave, valor, self.raiz)
-        else:
+    def insertar(self, clave, valor):
+        if not self.raiz:
             self.raiz = NodoArbol(clave, valor)
+        else:
+            self._insertar(clave, valor, self.raiz)
         self.tamano += 1
 
-    def _agregar(self, clave, valor, nodoActual):
+    def _insertar(self, clave, valor, nodoActual):
         if clave < nodoActual.clave:
             if nodoActual.tieneHijoIzquierdo():
-                self._agregar(clave, valor, nodoActual.hijoIzquierdo)
+                self._insertar(clave, valor, nodoActual.hijoIzquierdo)
             else:
                 nodoActual.hijoIzquierdo = NodoArbol(clave, valor, padre=nodoActual)
+                self._actualizarBalance(nodoActual.hijoIzquierdo)
         else:
             if nodoActual.tieneHijoDerecho():
-                self._agregar(clave, valor, nodoActual.hijoDerecho)
+                self._insertar(clave, valor, nodoActual.hijoDerecho)
             else:
                 nodoActual.hijoDerecho = NodoArbol(clave, valor, padre=nodoActual)
+                self._actualizarBalance(nodoActual.hijoDerecho)
 
-    def __setitem__(self, c, v):
-        self.agregar(c, v)
+    def _actualizarBalance(self, nodo):
+        if nodo.balance > 1 or nodo.balance < -1:
+            self._rebalancear(nodo)
+            return
+        if nodo.padre:
+            if nodo.esHijoIzquierdo():
+                nodo.padre.balance += 1
+            elif nodo.esHijoDerecho():
+                nodo.padre.balance -= 1
 
-    def obtener(self, clave):
-        if self.raiz:
-            res = self._obtener(clave, self.raiz)
-            return res.cargaUtil if res else None
-        return None
+            if nodo.padre.balance != 0:
+                self._actualizarBalance(nodo.padre)
 
-    def _obtener(self, clave, nodoActual):
-        if not nodoActual:
-            return None
-        elif clave == nodoActual.clave:
-            return nodoActual
-        elif clave < nodoActual.clave:
-            return self._obtener(clave, nodoActual.hijoIzquierdo)
+    def _rebalancear(self, nodo):
+        if nodo.balance < 0:
+            if nodo.hijoDerecho.balance > 0:
+                self._rotacionDerecha(nodo.hijoDerecho)
+                self._rotacionIzquierda(nodo)
+            else:
+                self._rotacionIzquierda(nodo)
+        elif nodo.balance > 0:
+            if nodo.hijoIzquierdo.balance < 0:
+                self._rotacionIzquierda(nodo.hijoIzquierdo)
+                self._rotacionDerecha(nodo)
+            else:
+                self._rotacionDerecha(nodo)
+
+    def _rotacionIzquierda(self, rotRaiz):
+        nuevaRaiz = rotRaiz.hijoDerecho
+        rotRaiz.hijoDerecho = nuevaRaiz.hijoIzquierdo
+        if nuevaRaiz.hijoIzquierdo:
+            nuevaRaiz.hijoIzquierdo.padre = rotRaiz
+        nuevaRaiz.padre = rotRaiz.padre
+        if rotRaiz.esRaiz():
+            self.raiz = nuevaRaiz
         else:
-            return self._obtener(clave, nodoActual.hijoDerecho)
+            if rotRaiz.esHijoIzquierdo():
+                rotRaiz.padre.hijoIzquierdo = nuevaRaiz
+            else:
+                rotRaiz.padre.hijoDerecho = nuevaRaiz
+        nuevaRaiz.hijoIzquierdo = rotRaiz
+        rotRaiz.padre = nuevaRaiz
+        rotRaiz.balance = rotRaiz.balance + 1 - min(nuevaRaiz.balance, 0)
+        nuevaRaiz.balance = nuevaRaiz.balance + 1 + max(rotRaiz.balance, 0)
 
-    def __getitem__(self, clave):
-        return self.obtener(clave)
+    def _rotacionDerecha(self, rotRaiz):
+        nuevaRaiz = rotRaiz.hijoIzquierdo
+        rotRaiz.hijoIzquierdo = nuevaRaiz.hijoDerecho
+        if nuevaRaiz.hijoDerecho:
+            nuevaRaiz.hijoDerecho.padre = rotRaiz
+        nuevaRaiz.padre = rotRaiz.padre
+        if rotRaiz.esRaiz():
+            self.raiz = nuevaRaiz
+        else:
+            if rotRaiz.esHijoDerecho():
+                rotRaiz.padre.hijoDerecho = nuevaRaiz
+            else:
+                rotRaiz.padre.hijoIzquierdo = nuevaRaiz
+        nuevaRaiz.hijoDerecho = rotRaiz
+        rotRaiz.padre = nuevaRaiz
+        rotRaiz.balance = rotRaiz.balance - 1 - max(nuevaRaiz.balance, 0)
+        nuevaRaiz.balance = nuevaRaiz.balance - 1 + min(rotRaiz.balance, 0)
 
-    def __contains__(self, clave):
-        return bool(self._obtener(clave, self.raiz))
+    def buscar(self, clave):
+        return self._buscar(clave, self.raiz)
+
+    def _buscar(self, clave, nodo):
+        if nodo is None:
+            raise KeyError("Clave no encontrada")
+        if clave == nodo.clave:
+            return nodo.cargaUtil
+        elif clave < nodo.clave:
+            return self._buscar(clave, nodo.hijoIzquierdo)
+        else:
+            return self._buscar(clave, nodo.hijoDerecho)
 
     def eliminar(self, clave):
-        if self.tamano > 1:
-            nodoAEliminar = self._obtener(clave, self.raiz)
-            if nodoAEliminar:
-                self.remover(nodoAEliminar)
-                self.tamano -= 1
-            else:
-                raise KeyError('Error, la clave no está en el árbol')
-        elif self.tamano == 1 and self.raiz.clave == clave:
-            self.raiz = None
+        nodo = self._buscar_nodo(clave, self.raiz)
+        if nodo:
+            self._remover(nodo)
             self.tamano -= 1
+
+    def _buscar_nodo(self, clave, nodo):
+        if nodo is None:
+            raise KeyError("Clave no encontrada")
+        if clave == nodo.clave:
+            return nodo
+        elif clave < nodo.clave:
+            return self._buscar_nodo(clave, nodo.hijoIzquierdo)
         else:
-            raise KeyError('Error, la clave no está en el árbol')
+            return self._buscar_nodo(clave, nodo.hijoDerecho)
 
-    def __delitem__(self, clave):
-        self.eliminar(clave)
-
-    def empalmar(self):
-        if self.esHoja():
-            if self.esHijoIzquierdo():
-                self.padre.hijoIzquierdo = None
+    def _remover(self, nodo):
+        # Lógica de eliminación simplificada para AVL
+        if nodo.esHoja():
+            if nodo.esRaiz():
+                self.raiz = None
+            elif nodo.esHijoIzquierdo():
+                nodo.padre.hijoIzquierdo = None
             else:
-                self.padre.hijoDerecho = None
-        elif self.tieneAlgunHijo():
-            if self.tieneHijoIzquierdo():
-                if self.esHijoIzquierdo():
-                    self.padre.hijoIzquierdo = self.hijoIzquierdo
-                else:
-                    self.padre.hijoDerecho = self.hijoIzquierdo
-                self.hijoIzquierdo.padre = self.padre
-            else:
-                if self.esHijoIzquierdo():
-                    self.padre.hijoIzquierdo = self.hijoDerecho
-                else:
-                    self.padre.hijoDerecho = self.hijoDerecho
-                self.hijoDerecho.padre = self.padre
-
-    def encontrarSucesor(self):
-        if self.tieneHijoDerecho():
-            return self.hijoDerecho.encontrarMin()
+                nodo.padre.hijoDerecho = None
+        elif nodo.tieneAmbosHijos():
+            sucesor = self._minimo(nodo.hijoDerecho)
+            nodo.clave = sucesor.clave
+            nodo.cargaUtil = sucesor.cargaUtil
+            self._remover(sucesor)
         else:
-            actual = self
-            padre = self.padre
-            while padre and actual == padre.hijoDerecho:
-                actual = padre
-                padre = padre.padre
-            return padre
+            hijo = nodo.hijoIzquierdo if nodo.tieneHijoIzquierdo() else nodo.hijoDerecho
+            if nodo.esRaiz():
+                self.raiz = hijo
+                hijo.padre = None
+            elif nodo.esHijoIzquierdo():
+                nodo.padre.hijoIzquierdo = hijo
+            else:
+                nodo.padre.hijoDerecho = hijo
+            hijo.padre = nodo.padre
 
-    def encontrarMin(self):
-        actual = self
+    def _minimo(self, nodo):
+        actual = nodo
         while actual.tieneHijoIzquierdo():
             actual = actual.hijoIzquierdo
         return actual
 
-    def remover(self, nodoActual):
-        if nodoActual.esHoja():
-            if nodoActual.esHijoIzquierdo():
-                nodoActual.padre.hijoIzquierdo = None
-            else:
-                nodoActual.padre.hijoDerecho = None
-        elif nodoActual.tieneAmbosHijos():
-            suc = nodoActual.encontrarSucesor()
-            suc.empalmar()
-            nodoActual.clave = suc.clave
-            nodoActual.cargaUtil = suc.cargaUtil
-        else:
-            if nodoActual.tieneHijoIzquierdo():
-                hijo = nodoActual.hijoIzquierdo
-            else:
-                hijo = nodoActual.hijoDerecho
+    def __iter__(self):
+        return self._inorden(self.raiz)
 
-            if nodoActual.esHijoIzquierdo():
-                nodoActual.padre.hijoIzquierdo = hijo
-            elif nodoActual.esHijoDerecho():
-                nodoActual.padre.hijoDerecho = hijo
-            else:
-                nodoActual.reemplazarDatoDeNodo(
-                    hijo.clave, hijo.cargaUtil,
-                    hijo.hijoIzquierdo, hijo.hijoDerecho
-                )
-            if hijo:
-                hijo.padre = nodoActual.padre
+    def _inorden(self, nodo):
+        if nodo:
+            yield from self._inorden(nodo.hijoIzquierdo)
+            yield (nodo.clave, nodo.cargaUtil)
+            yield from self._inorden(nodo.hijoDerecho)
