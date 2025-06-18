@@ -1,18 +1,17 @@
-from datetime import datetime  
-from modules.ColaPrioridad import ColaDePrioridad 
-
+from datetime import datetime
+from modules.arbolAVL import ArbolBinarioBusqueda
 class Temperaturas_DB:
     def __init__(self):
-        self.datos = ColaDePrioridad()
+        self.datos = ArbolBinarioBusqueda()
 
     def guardar_temperatura(self, temperatura, fecha_str):
         fecha = datetime.strptime(fecha_str, "%d/%m/%Y")
-        self.datos.encolar(fecha, temperatura)
+        self.datos.insertar(fecha, temperatura)
 
     def devolver_temperatura(self, fecha_str):
         fecha = datetime.strptime(fecha_str, "%d/%m/%Y")
         try:
-            return self.datos.obtener(fecha)
+            return self.datos.buscar(fecha)
         except KeyError:
             return None
 
@@ -21,7 +20,7 @@ class Temperaturas_DB:
 
     def borrar_temperatura(self, fecha_str): 
         fecha = datetime.strptime(fecha_str, "%d/%m/%Y")
-        self.datos.desencolar(fecha) 
+        self.datos.eliminar(fecha) 
 
     def max_temp_rango(self, f1_str, f2_str): 
         f1 = datetime.strptime(f1_str, "%d/%m/%Y")

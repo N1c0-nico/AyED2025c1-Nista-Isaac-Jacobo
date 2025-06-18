@@ -1,4 +1,4 @@
-from modules.temperaturasDB import Temperaturas_DB
+from modules.TemperaturasDB2 import Temperaturas_DB
 # Creamos un test para poder probar nuestra ColaDePrioridad :D
 
 def test_base_datos_temperaturas(): # Creamos la función que probará la clase
