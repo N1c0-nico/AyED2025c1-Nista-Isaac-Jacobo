@@ -1,5 +1,5 @@
 from collections import defaultdict
-from modules.ElDiji import dijkstra
+from modules.prim import prim
 from modules.arbolito import arbol_difusion
 
 # Carga la red de aldeas desde el archivo de texto
@@ -38,6 +38,6 @@ def mostrar_resultados(distancia_minima, camino_mas_corto, red_reenvio):
 
 # Ejecución principal
 red_aldeas = cargar_red_aldeas("aldeas.txt")
-distancia_minima, camino_mas_corto = dijkstra(red_aldeas, "Peligros")
+distancia_minima, camino_mas_corto = prim(red_aldeas, "Peligros")
 red_reenvio = arbol_difusion(camino_mas_corto)
 mostrar_resultados(distancia_minima, camino_mas_corto, red_reenvio)
