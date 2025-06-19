@@ -1,4 +1,4 @@
-from modules.monticules import MonticuloBinario
+from modules.ColaPrioridad import ColaDePrioridad
 
 def prim(red_aldeas, aldea_origen):
     visitadas = set()
@@ -6,11 +6,11 @@ def prim(red_aldeas, aldea_origen):
     distancia_minima = {aldea: float('inf') for aldea in red_aldeas}
     distancia_minima[aldea_origen] = 0
 
-    monticulo = MonticuloBinario()
-    monticulo.insertar(0, aldea_origen)
+    cola = ColaDePrioridad()
+    cola.encolar(0, aldea_origen)
 
-    while not monticulo.esta_vacio():
-        distancia_actual, aldea_actual = monticulo.extraer()
+    while not cola.esta_vacio():
+        distancia_actual, aldea_actual = cola.desencolar()
 
         if aldea_actual in visitadas:
             continue
@@ -21,6 +21,6 @@ def prim(red_aldeas, aldea_origen):
             if vecina not in visitadas and peso < distancia_minima[vecina]:
                 distancia_minima[vecina] = peso
                 camino_mas_corto[vecina] = aldea_actual
-                monticulo.insertar(peso, vecina)
+                cola.encolar(peso, vecina)
 
     return distancia_minima, camino_mas_corto
